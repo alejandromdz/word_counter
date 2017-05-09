@@ -5,8 +5,6 @@ interface Node {
 
 
 class Trie {
-
-    private static R: number = 256;
     private root: Node = null;
     public wordList: any = {};
     public putValue(key: string, val: any) {
@@ -14,13 +12,11 @@ class Trie {
     }
 
     private putNode(x: Node, key: string, val: any, d: number) {
-        if (d == key.length) {
-            if (x !== null&&this.wordList[key])
-                this.wordList[key]++;
-        }
         if (x === null) x = { val: '', next: [] };
         if (d == key.length) {
-            if(x.val&&!this.wordList[key]) this.wordList[key]=2;
+            if(x.val) 
+            this.wordCounter(key);
+            
             x.val = val;
             return x;
         }
@@ -29,6 +25,15 @@ class Trie {
         x.next[c] = this.putNode(x.next[c], key, val, d + 1);
         return x;
     }
+
+    private wordCounter(word:string){
+        if(!this.wordList[word]){
+            this.wordList[word]=2;
+        }
+        else{
+            this.wordList[word]++;
+        }
+    }   
 
 }
 

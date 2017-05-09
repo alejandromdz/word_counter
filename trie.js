@@ -9,15 +9,11 @@ var Trie = (function () {
         this.root = this.putNode(this.root, key, val, 0);
     };
     Trie.prototype.putNode = function (x, key, val, d) {
-        if (d == key.length) {
-            if (x !== null && this.wordList[key])
-                this.wordList[key]++;
-        }
         if (x === null)
             x = { val: '', next: [] };
         if (d == key.length) {
-            if (x.val && !this.wordList[key])
-                this.wordList[key] = 2;
+            if (x.val)
+                this.wordCounter(key);
             x.val = val;
             return x;
         }
@@ -27,7 +23,14 @@ var Trie = (function () {
         x.next[c] = this.putNode(x.next[c], key, val, d + 1);
         return x;
     };
+    Trie.prototype.wordCounter = function (word) {
+        if (!this.wordList[word]) {
+            this.wordList[word] = 2;
+        }
+        else {
+            this.wordList[word]++;
+        }
+    };
     return Trie;
 }());
-Trie.R = 256;
 exports["default"] = Trie;
